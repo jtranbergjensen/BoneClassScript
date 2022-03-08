@@ -1,15 +1,7 @@
 // ------------------------- Status ----------------------------------//
-// use stored result labels as a progress log.
-// or create another text file with the progress log information.
-// probably the best idea, as the title can easuly be saved, along side the image, into a txt file. 
-// whereas the in the case of the labels, a lot of redundant labels will be present, thus the loop will probably take ages to complete.
-// actually, one might consider to have several result files, maybe one pr. image, because of this. 
-
-// next up, we also need to be sure, that when the script restarts fresh, that the result collection table stores the new measurements. 
-// it looks weird, because the table quickly receives and then does not print the retrieved results. However, the results are saved in the txt file.
-// lets have a close look at this tomorrow with some more tests.
-// actually, it looked like multiple resultcollection windows where open.
-// this might have been the problem..
+// This script has been created by Jeppe Tranberg Jensen.
+// Please contact me at jeppetranbergjensen@gmail.com if you may encounter any problems.
+// Please acknowledge my work in any publications.
 
 //-----------------------------------------------------------------------------//
 // -------------------------------- Functions ---------------------------------//
@@ -321,38 +313,23 @@ for (j = 0; j < NewFileList2.length; j++) {
 
 	// remove the latest result specifically from the results window
 	IJ.deleteRows(nResults-1, nResults);
-	
-	// with the bounding rectangle we can estimate the pixel diameter of the implant by taking the lowest meausrement. We can use this information to calibrate the image
-	
-	// lets attempt to make some concentric circles, 3 in total
-	// width should match the diameter
-	// height should match the diameter 
-	// xcoordinate should be subtracted with the radius
-	// ycoordinate should be subtracted with the radius
-	
-	// for now lets work with some approximations
-	// pixel diameter of the implant is 1992 pixels
-	
-	// Implant diameter may change through out the sample, as I assume a pointed screw. 
-	// thus we in each step need to find the implant diameter, to adjust the circle distances
-	// this information we can extract from the bounding rectangle
-	// or we can assume 1mm diameter for all the samples
-	
-	//ImplantDiameter = 1992;
-	
-	// First concentric circle needs twice this diameter
-	
-	
-	// lets compute the coordinates of the bounding rectangle
 
 	// close duplicate
 	close(Duplicate);
-	
-	//makeOval(x, y, width, height);
 	selectWindow(OriginalImg);
 	
 	// add grid
-	run("Grid...", "grid=Lines area=23988 color=Cyan");
+	// compute the area in micrometers of one pixel
+	PixelArea = PixelX * PixelY;
+
+	// Set grid size to 10.000 µm^2
+	GridSizeMicro = 10000;
+
+	// Grid size in pixels
+	GridSizePixels = GridSizeMicro / PixelArea;
+
+	// place grid
+	run("Grid...", "grid=Lines area=" + GridSizePixels + " color=Cyan");
 	
 	// add concentric circles
 	makeConcentricCircles(xCoordinate, yCoordinate, ImplantDiameter);
@@ -360,11 +337,6 @@ for (j = 0; j < NewFileList2.length; j++) {
 
 	run("Set Measurements...", "centroid display add redirect=None decimal=2");
 	
-	// Define a window to stay open during the analyses, which when closed will prompt the opening of the next window
-	//Dialog.createNonBlocking("Status");
-	//Dialog.addMessage("Press OK, when analysis of the open image is complete");
-	//Dialog.setLocation(0,0);
-	//Dialog.show();
 	
 	// make sure that the overlay cannot be manipulated
 	Overlay.selectable(false);
