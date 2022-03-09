@@ -352,7 +352,7 @@ for (j = 0; j < NewFileList2.length; j++) {
 	// let user set points
 	//waitForUser("Place dots of one category", "Mark grid-bone intersections. \nUse q,w,e and r to switch categories. \nUse m to measure.\nWhen the image is complete, press OK");
 	Dialog.createNonBlocking("Place dots of one category");
-	Dialog.addMessage("Mark grid-bone intersections. \nUse q,w,e and r to switch categories. \nUse m to measure.\nWhen the image is complete, press OK\nIf this is the last image to process, use the checkbox.");
+	Dialog.addMessage("Mark grid-bone intersections. \nUse q,w,e and r to switch categories. \nq=Developing\nw=Resting\ne=Degrading\nr=NA\nUse m to measure.\nWhen the image is complete, press OK\nIf this is the last image to process, use the checkbox.");
 	Dialog.addCheckbox("Close after this Image?", 0);
 	Dialog.setLocation(ScreenW/2, 0);
 	Dialog.show();
